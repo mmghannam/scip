@@ -757,82 +757,11 @@ SCIP_RETCODE applyBdchgs(
    return SCIP_OKAY;
 }
 
-/** execute reliability pseudo cost branching */
-static
-SCIP_RETCODE execRelpscost(
-   SCIP*                 scip,               /**< SCIP data structure */
-   SCIP_BRANCHRULE*      branchrule,         /**< branching rule */
-   SCIP_VAR**            branchcands,        /**< branching candidates */
-   SCIP_Real*            branchcandssol,     /**< solution value for the branching candidates */
-   SCIP_Real*            branchcandsfrac,    /**< fractional part of the branching candidates */
-   int*                  branchorbitidx,     /**< indices of orbit (or NULL) */
-   int                   nbranchcands,       /**< number of branching candidates */
-   SCIP_Bool             executebranch,      /**< execute a branching step or run probing only */
-   SCIP_RESULT*          result              /**< pointer to the result of the execution */
-   )
-{  /*lint --e{715}*/
-   SCIP_BRANCHRULEDATA* branchruledata;
-   SCIP_Real lpobjval;
-   SCIP_Real bestsbdown;
-   SCIP_Real bestsbup;
-   SCIP_Real provedbound;
-   SCIP_Bool bestsbdownvalid;
-   SCIP_Bool bestsbupvalid;
-   SCIP_Bool bestsbdowncutoff;
-   SCIP_Bool bestsbupcutoff;
-   SCIP_Bool bestisstrongbranch;
-   SCIP_Bool allcolsinlp;
-   SCIP_Bool exactsolve;
-   int ninitcands;
-   int bestcand;
+static SCIP_RETCODE getBestCandidate(
+   
+) {
 
-   /* remember which variables strong branching is performed on, and the
-    * recorded lp bound changes that are observed */
-   SCIP_Bool* sbvars = NULL;
-   SCIP_Real* sbdown = NULL;
-   SCIP_Real* sbup = NULL;
-   SCIP_Bool* sbdownvalid = NULL;
-   SCIP_Bool* sbupvalid = NULL;
-
-   *result = SCIP_DIDNOTRUN;
-
-   assert(SCIPgetLPSolstat(scip) == SCIP_LPSOLSTAT_OPTIMAL);
-
-   /* get branching rule data */
-   branchruledata = SCIPbranchruleGetData(branchrule);
-   assert(branchruledata != NULL);
-
-   /* get current LP objective bound of the local sub problem and global cutoff bound */
-   lpobjval = SCIPgetLPObjval(scip);
-
-   /* check, if we want to solve the problem exactly, meaning that strong branching information is not useful
-    * for cutting off sub problems and improving lower bounds of children
-    */
-   exactsolve = SCIPisExactSolve(scip);
-
-   /* check, if all existing columns are in LP, and thus the strong branching results give lower bounds */
-   allcolsinlp = SCIPallColsInLP(scip);
-
-   bestcand = -1;
-   bestisstrongbranch = FALSE;
-   bestsbdown = SCIP_INVALID;
-   bestsbup = SCIP_INVALID;
-   bestsbdownvalid = FALSE;
-   bestsbupvalid = FALSE;
-   bestsbdowncutoff = FALSE;
-   bestsbupcutoff = FALSE;
-   provedbound = lpobjval;
-
-   /* Allocate memory to store the lp bounds of the up and down children
-    * for those of the variables that we performed sb on
-    */
-   SCIP_CALL( SCIPallocBufferArray(scip, &sbdown, nbranchcands) );
-   SCIP_CALL( SCIPallocBufferArray(scip, &sbup, nbranchcands) );
-   SCIP_CALL( SCIPallocBufferArray(scip, &sbdownvalid, nbranchcands) );
-   SCIP_CALL( SCIPallocBufferArray(scip, &sbupvalid, nbranchcands) );
-   SCIP_CALL( SCIPallocBufferArray(scip, &sbvars, nbranchcands) );
-
-   if( nbranchcands == 1 )
+      if( nbranchcands == 1 )
    {
       /* only one candidate: nothing has to be done */
       bestcand = 0;
@@ -1804,6 +1733,83 @@ SCIP_RETCODE execRelpscost(
       SCIPfreeBufferArray(scip, &initcandscores);
       SCIPfreeBufferArray(scip, &initcands);
    }
+}
+
+/** execute reliability pseudo cost branching */
+static
+SCIP_RETCODE execRelpscost(
+   SCIP*                 scip,               /**< SCIP data structure */
+   SCIP_BRANCHRULE*      branchrule,         /**< branching rule */
+   SCIP_VAR**            branchcands,        /**< branching candidates */
+   SCIP_Real*            branchcandssol,     /**< solution value for the branching candidates */
+   SCIP_Real*            branchcandsfrac,    /**< fractional part of the branching candidates */
+   int*                  branchorbitidx,     /**< indices of orbit (or NULL) */
+   int                   nbranchcands,       /**< number of branching candidates */
+   SCIP_Bool             executebranch,      /**< execute a branching step or run probing only */
+   SCIP_RESULT*          result              /**< pointer to the result of the execution */
+   )
+{  /*lint --e{715}*/
+   SCIP_BRANCHRULEDATA* branchruledata;
+   SCIP_Real lpobjval;
+   SCIP_Real bestsbdown;
+   SCIP_Real bestsbup;
+   SCIP_Real provedbound;
+   SCIP_Bool bestsbdownvalid;
+   SCIP_Bool bestsbupvalid;
+   SCIP_Bool bestsbdowncutoff;
+   SCIP_Bool bestsbupcutoff;
+   SCIP_Bool bestisstrongbranch;
+   SCIP_Bool allcolsinlp;
+   SCIP_Bool exactsolve;
+   int ninitcands;
+   int bestcand;
+
+   /* remember which variables strong branching is performed on, and the
+    * recorded lp bound changes that are observed */
+   SCIP_Bool* sbvars = NULL;
+   SCIP_Real* sbdown = NULL;
+   SCIP_Real* sbup = NULL;
+   SCIP_Bool* sbdownvalid = NULL;
+   SCIP_Bool* sbupvalid = NULL;
+
+   *result = SCIP_DIDNOTRUN;
+
+   assert(SCIPgetLPSolstat(scip) == SCIP_LPSOLSTAT_OPTIMAL);
+
+   /* get branching rule data */
+   branchruledata = SCIPbranchruleGetData(branchrule);
+   assert(branchruledata != NULL);
+
+   /* get current LP objective bound of the local sub problem and global cutoff bound */
+   lpobjval = SCIPgetLPObjval(scip);
+
+   /* check, if we want to solve the problem exactly, meaning that strong branching information is not useful
+    * for cutting off sub problems and improving lower bounds of children
+    */
+   exactsolve = SCIPisExactSolve(scip);
+
+   /* check, if all existing columns are in LP, and thus the strong branching results give lower bounds */
+   allcolsinlp = SCIPallColsInLP(scip);
+
+   bestcand = -1;
+   bestisstrongbranch = FALSE;
+   bestsbdown = SCIP_INVALID;
+   bestsbup = SCIP_INVALID;
+   bestsbdownvalid = FALSE;
+   bestsbupvalid = FALSE;
+   bestsbdowncutoff = FALSE;
+   bestsbupcutoff = FALSE;
+   provedbound = lpobjval;
+
+   /* Allocate memory to store the lp bounds of the up and down children
+    * for those of the variables that we performed sb on
+    */
+   SCIP_CALL( SCIPallocBufferArray(scip, &sbdown, nbranchcands) );
+   SCIP_CALL( SCIPallocBufferArray(scip, &sbup, nbranchcands) );
+   SCIP_CALL( SCIPallocBufferArray(scip, &sbdownvalid, nbranchcands) );
+   SCIP_CALL( SCIPallocBufferArray(scip, &sbupvalid, nbranchcands) );
+   SCIP_CALL( SCIPallocBufferArray(scip, &sbvars, nbranchcands) );
+
 
    /* if no domain could be reduced, create the branching */
    if( *result != SCIP_CUTOFF && *result != SCIP_REDUCEDDOM && *result != SCIP_CONSADDED && executebranch )
