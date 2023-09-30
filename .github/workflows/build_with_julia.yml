@@ -41,19 +41,24 @@ jobs:
             sudo cp -r "$dir"* .
         done
 
+        # ZIP include, lib and bin folders
+        sudo zip -r include.zip include
+        sudo zip -r lib.zip lib
+        sudo zip -r bin.zip bin
+
     - uses: actions/upload-artifact@v3
       with:
         name: lib
-        path: ~/.julia/artifacts/lib
+        path: ~/.julia/artifacts/lib.zip
     
     - uses: actions/upload-artifact@v3
       with:
         name: include
-        path: ~/.julia/artifacts/include
+        path: ~/.julia/artifacts/include.zip
     
     - uses: actions/upload-artifact@v3
       with:
         name: bin
-        path: ~/.julia/artifacts/bin
+        path: ~/.julia/artifacts/bin.zip
 
 
