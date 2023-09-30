@@ -42,8 +42,8 @@ jobs:
         done
 
         mkdir scip
-        mv lib scip
-        mv include scip
+        sudo mv lib scip
+        sudo mv include scip
         # mv bin scip # TODO: check if bin is needed
 
         sudo zip -r scip.zip scip
