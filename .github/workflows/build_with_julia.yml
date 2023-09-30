@@ -29,3 +29,8 @@ jobs:
       run: |
         julia -e 'using Pkg; Pkg.add("SCIP")'
         du -sh ~/.julia/artifacts
+    
+    - uses: upload-artifact@v2
+      with:
+        name: artifacts
+        path: ~/.julia/artifacts
