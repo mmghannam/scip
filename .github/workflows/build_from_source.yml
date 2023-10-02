@@ -1,0 +1,97 @@
+name: Build SCIP from source
+
+
+on:
+  push:
+    branches:
+      - '**'
+
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false # do not stop all builds if one fails
+      matrix:
+        os: [ubuntu-latest]
+
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev libmetis-dev unzip zip build-essential libscalapack-mpi-dev
+      shell: bash
+
+    - name: Download IPOPT
+      run: |
+        wget https://github.com/coin-or/Ipopt/archive/refs/tags/releases/3.14.12.zip
+        unzip 3.14.12.zip
+        mkdir /usr/local/ipopt
+        mkdir /usr/local/ipopt/share
+        echo 'enable_shared=no
+        enable_java=no
+        enable_sipopt=no
+        with_pic=yes
+        with_metis_cflags="-I/use/local/metis/include"
+        with_metis_lflags="-L/usr/local/metis/Linux-x86_64/libmetis -lmetis -lm"
+        with_lapack="-L/usr/lib/x86_64-linux-gnu/ -llapack -lblas -lgfortran -lquadmath -lm"
+        LT_LDFLAGS=-all-static
+        LDFLAGS=-static' > /usr/local/ipopt/share/config.site
+      shell: bash
+
+    - name: Download and install metis
+      run: |
+        wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
+        tar -xvf metis-5.1.0.tar.gz
+        cd metis-5.1.0
+        mkdir /usr/local/metis
+        make config prefix=/usr/local/metis/
+        make install
+      shell: bash
+        
+    - name: Download and install Mumps
+      run: |
+        git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
+        cd ThirdParty-Mumps
+        ./get.Mumps
+        ./configure --enable-shared=no --enable-static=yes --prefix=/usr/local/ipopt
+        make
+        make install
+      shell: bash
+      
+    - name: Install IPOPT
+      run: |
+        cd Ipopt-releases-3.14.12
+        mkdir build
+        cd build
+        ../configure --prefix=/usr/local/ipopt/
+        make -j$(nproc)
+        make test
+        make install
+      shell: bash
+
+    - name: Download and install SOPLEX
+      run: |
+        git clone https://github.com/scipopt/soplex.git
+        cd soplex
+        mkdir build
+        mkdir /usr/local/soplex
+        cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/soplex -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        make test
+        make install
+      shell: bash
+
+    - name: Download and install SCIP
+      run: |
+        mkdir /usr/local/scip
+        git clone https://github.com/scipopt/scip.git
+        cd scip
+        mkdir build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/scip -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=/usr/local/soplex -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=/usr/local/ipopt
+        make -j$(nproc)
+        make install
+      shell: bash
