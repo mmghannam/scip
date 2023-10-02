@@ -73,10 +73,7 @@ jobs:
         unzip 3.14.12.zip
         mkdir $GITHUB_WORKSPACE/ipopt
         mkdir $GITHUB_WORKSPACE/ipopt/share
-        echo 'CC=/usr/bin/cc
-        CXX=/usr/bin/c++
-        FC=/usr/local/bin/gfortran
-        enable_shared=no
+        echo 'enable_shared=no
         enable_java=no
         enable_sipopt=no
         with_pic=yes
