@@ -105,13 +105,9 @@ jobs:
     - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        which gcc
-        gcc --version
-        /usr/local/bin/gcc-13 --version
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
-        which gcc
-        gcc --version
+        export CC=/usr/local/bin/gcc-12
+        export CXX=/usr/local/bin/g++-12
+        /usr/local/bin/gcc-12 --version
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
