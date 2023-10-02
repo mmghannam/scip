@@ -79,6 +79,7 @@ jobs:
         cd soplex
         mkdir build
         mkdir $GITHUB_WORKSPACE/soplex_install
+        cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
         make -j$(nproc)
         make test
