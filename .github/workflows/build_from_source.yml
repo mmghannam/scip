@@ -94,8 +94,8 @@ jobs:
         make install
       shell: bash
         
-    - name: Download and install Mumps
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Download and install Mumps for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
@@ -103,6 +103,19 @@ jobs:
         which gcc
         gcc --version
         ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
+        make
+        make install
+      shell: bash
+
+    -name: Download and install Mumps for Mac
+      if: matrix.os == 'macos-latest'
+      run: |
+        git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
+        cd ThirdParty-Mumps
+        ./get.Mumps
+        which gcc
+        gcc --version
+        CC=/usr/local/bin/gcc-13 CCX=/usr/local/bin/g++-13 ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
       shell: bash
