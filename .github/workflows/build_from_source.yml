@@ -90,8 +90,8 @@ jobs:
     - name: Download and install metis for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-12
-        export CXX=/usr/local/bin/g++-12
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
         wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
         tar -xvf metis-5.1.0.tar.gz
         mkdir $GITHUB_WORKSPACE/metis
@@ -116,9 +116,9 @@ jobs:
     - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-12
-        export CXX=/usr/local/bin/g++-12
-        export FC=/usr/local/bin/gfortran
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
+        export FC=/usr/local/bin/gfortran-13
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
@@ -133,9 +133,24 @@ jobs:
         cat ThirdParty-Mumps/config.log
       shell: bash
       
-    - name: Install IPOPT
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Install IPOPT for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
+        cd Ipopt-releases-3.14.12
+        mkdir build
+        cd build
+        ../configure --prefix=$GITHUB_WORKSPACE/ipopt/
+        make -j$(nproc)
+        make test
+        make install
+      shell: bash
+
+    - name: Install IPOPT for Mac
+      if: matrix.os == 'macos-latest'
+      run: |
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
+        export FC=/usr/local/bin/gfortran-13
         cd Ipopt-releases-3.14.12
         mkdir build
         cd build
