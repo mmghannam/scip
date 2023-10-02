@@ -34,8 +34,8 @@ jobs:
         brew install gcc
         brew install pkg-config
         brew link gcc
-        ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
-        ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+        ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
+        ln -sf /usr/local/bin/g++-11 /usr/local/bin/g++
       shell: bash
 
     - name: Install GMP for Mac
@@ -116,7 +116,7 @@ jobs:
         ./get.Mumps
         which gcc
         gcc --version
-        ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
+        CC=/usr/local/bin/gcc-11 ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
       shell: bash
