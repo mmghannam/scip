@@ -29,23 +29,23 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        update-alternatives --display gcc
-        exit 1
         brew update
         brew install bash
         brew install gcc
         brew install pkg-config
-        echo "export CC=/usr/local/bin/gcc
-        export CXX=/usr/local/bin/g++
-        export CPP=/usr/local/bin/cpp
-        export LD=/usr/local/bin/gcc
-        alias c++=/usr/local/bin/c++
-        alias g++=/usr/local/bin/g++
-        alias gcc=/usr/local/bin/gcc
-        alias cpp=/usr/local/bin/cpp
-        alias ld=/usr/local/bin/gcc
-        alias cc=/usr/local/bin/gcc" >> $GITHUB_WORKSPACE/.bashrc
-        
+        brew unlink gcc
+        brew link gcc
+      shell: bash
+
+    - name: Install GMP for Mac
+      if: matrix.os == 'macos-latest'
+      run: |
+        wget https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz
+        tar xvf gmp-6.3.0.tar.xz
+        mkdir $GITHUB_WORKSPACE/gmplib
+        cd gmp-6.3.0
+        ./configure --with-pic --enable-cxx --prefix=$GITHUB_WORKSPACE/gmplib
+        make install -j
       shell: bash
 
     - name: Download IPOPT for Ubuntu
@@ -73,7 +73,10 @@ jobs:
         unzip 3.14.12.zip
         mkdir $GITHUB_WORKSPACE/ipopt
         mkdir $GITHUB_WORKSPACE/ipopt/share
-        echo 'enable_shared=no
+        echo 'CC=/usr/bin/cc
+        CXX=/usr/bin/c++
+        FC=/usr/local/bin/gfortran
+        enable_shared=no
         enable_java=no
         enable_sipopt=no
         with_pic=yes
