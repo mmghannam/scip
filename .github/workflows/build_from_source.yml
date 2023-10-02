@@ -100,6 +100,8 @@ jobs:
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
+        which gcc
+        gcc --version
         ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
