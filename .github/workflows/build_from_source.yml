@@ -29,11 +29,11 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        brew update
-        brew install bash gcc
+        brew install bash
+        gcc --version
         which gcc
-        brew info gcc
         brew link --overwrite gcc
+        gcc --version
         which gcc
         exit 1
         brew install pkg-config
