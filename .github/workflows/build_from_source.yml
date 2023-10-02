@@ -29,14 +29,21 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
+        brew update
         brew install bash
-        gcc --version
-        which gcc
-        brew link --overwrite gcc
-        gcc --version
-        which gcc
-        exit 1
+        brew install gcc
         brew install pkg-config
+        echo "export CC=/usr/local/bin/gcc
+        export CXX=/usr/local/bin/g++
+        export CPP=/usr/local/bin/cpp
+        export LD=/usr/local/bin/gcc
+        alias c++=/usr/local/bin/c++
+        alias g++=/usr/local/bin/g++
+        alias gcc=/usr/local/bin/gcc
+        alias cpp=/usr/local/bin/cpp
+        alias ld=/usr/local/bin/gcc
+        alias cc=/usr/local/bin/gcc" >> $GITHUB_WORKSPACE/.bashrc
+        
       shell: bash
 
     - name: Download IPOPT for Ubuntu
