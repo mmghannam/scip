@@ -107,7 +107,7 @@ jobs:
         make install
       shell: bash
 
-    -name: Download and install Mumps for Mac
+    - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
