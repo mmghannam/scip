@@ -115,6 +115,12 @@ jobs:
         make
         make install
       shell: bash
+
+    - name: Check Fail Reason Mac
+      if: always()
+      run: |
+        cat ThirdPart-Mumps/config.log
+      shell: bash
       
     - name: Install IPOPT
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
