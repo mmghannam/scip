@@ -27,15 +27,9 @@ jobs:
       shell: bash
 
     - name: Instance dependencies for Mac
-      if: matrix.os == 'None'
+      if: matrix.os == 'macos-latest'
       run: |
-        brew update
         brew install bash
-        brew install gcc
-        brew install pkg-config
-        brew link gcc
-        ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
-        ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
       shell: bash
 
     - name: Install GMP for Mac
@@ -111,13 +105,16 @@ jobs:
     - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        which gcc
+        gcc --version
+        /usr/local/bin/gcc-13 --version
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
+        which gcc
+        gcc --version
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
-        which gcc
-        gcc --version
         ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
