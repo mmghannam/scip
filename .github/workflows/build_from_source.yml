@@ -34,8 +34,7 @@ jobs:
         brew install gcc
         brew install pkg-config
         brew link gcc
-        ls /usr/local/bin
-        exit 1
+        ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
       shell: bash
 
     - name: Install GMP for Mac
