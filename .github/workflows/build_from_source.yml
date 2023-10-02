@@ -34,8 +34,8 @@ jobs:
         brew install gcc
         brew install pkg-config
         brew link gcc
-        ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
-        ln -sf /usr/local/bin/g++-11 /usr/local/bin/g++
+        ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+        ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
       shell: bash
 
     - name: Install GMP for Mac
@@ -111,12 +111,14 @@ jobs:
     - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
         which gcc
         gcc --version
-        CC=/usr/local/bin/gcc-11 ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
+        ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
       shell: bash
