@@ -30,6 +30,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         brew install bash
+        brew upgrade cmake
       shell: bash
 
     - name: Install GMP for Mac
@@ -73,7 +74,7 @@ jobs:
         enable_sipopt=no
         with_pic=yes
         with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include"
-        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib -lmetis -lm"' > $GITHUB_WORKSPACE/ipopt/share/config.site
+        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib -lmetis"' > $GITHUB_WORKSPACE/ipopt/share/config.site
       shell: bash
 
     - name: Download and install metis for Ubuntu
@@ -126,12 +127,6 @@ jobs:
         make
         make install
       shell: bash
-
-    - name: Check Fail Reason Mac
-      if: always()
-      run: |
-        cat ThirdParty-Mumps/config.log
-      shell: bash
       
     - name: Install IPOPT for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -160,8 +155,8 @@ jobs:
         make install
       shell: bash
 
-    - name: Download and install SOPLEX
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Download and install SOPLEX for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
@@ -174,8 +169,25 @@ jobs:
         make install
       shell: bash
 
-    - name: Download and install SCIP
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Download and install SOPLEX for Mac
+      if: matrix.os == 'macos-latest'
+      run: |
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
+        export FC=/usr/local/bin/gfortran-13
+        git clone https://github.com/scipopt/soplex.git
+        cd soplex
+        mkdir build
+        mkdir $GITHUB_WORKSPACE/soplex_install
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        make -j$(nproc)
+        make test
+        make install
+      shell: bash
+
+    - name: Download and install SCIP for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         mkdir $GITHUB_WORKSPACE/scip_install
         git clone https://github.com/scipopt/scip.git
@@ -186,3 +198,20 @@ jobs:
         make -j$(nproc)
         make install
       shell: bash
+
+    - name: Download and install SCIP for Mac
+      if:  matrix.os == 'macos-latest'
+      run: |
+        export CC=/usr/local/bin/gcc-13
+        export CXX=/usr/local/bin/g++-13
+        export FC=/usr/local/bin/gfortran-13
+        mkdir $GITHUB_WORKSPACE/scip_install
+        git clone https://github.com/scipopt/scip.git
+        cd scip
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        make -j$(nproc)
+        make install
+      shell: bash
+    
