@@ -31,9 +31,11 @@ jobs:
       run: |
         brew update
         brew install bash gcc
+        which gcc
         brew info gcc
         brew link --overwrite gcc
-        brew info gcc
+        which gcc
+        exit 1
         brew install pkg-config
       shell: bash
 
