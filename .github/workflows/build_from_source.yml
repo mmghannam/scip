@@ -76,9 +76,22 @@ jobs:
         with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib -lmetis -lm"' > $GITHUB_WORKSPACE/ipopt/share/config.site
       shell: bash
 
-    - name: Download and install metis
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Download and install metis for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
+        wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
+        tar -xvf metis-5.1.0.tar.gz
+        mkdir $GITHUB_WORKSPACE/metis
+        cd metis-5.1.0
+        make config prefix=$GITHUB_WORKSPACE/metis/
+        make install
+      shell: bash
+
+    - name: Download and install metis for Mac
+      if: matrix.os == 'macos-latest'
+      run: |
+        export CC=/usr/local/bin/gcc-12
+        export CXX=/usr/local/bin/g++-12
         wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
         tar -xvf metis-5.1.0.tar.gz
         mkdir $GITHUB_WORKSPACE/metis
@@ -105,6 +118,7 @@ jobs:
       run: |
         export CC=/usr/local/bin/gcc-12
         export CXX=/usr/local/bin/g++-12
+        export FC=/usr/local/bin/gfortran
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
