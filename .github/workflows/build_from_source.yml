@@ -72,10 +72,8 @@ jobs:
         enable_java=no
         enable_sipopt=no
         with_pic=yes
-        # with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include"
-        # with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib -lmetis -lm"
-        LT_LDFLAGS=-all-static
-        LDFLAGS=-static' > $GITHUB_WORKSPACE/ipopt/share/config.site
+        with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include"
+        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib -lmetis -lm"' > $GITHUB_WORKSPACE/ipopt/share/config.site
       shell: bash
 
     - name: Download and install metis
@@ -110,7 +108,7 @@ jobs:
         git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
-        ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt --without-metis
+        ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
         make
         make install
       shell: bash
