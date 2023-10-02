@@ -34,10 +34,12 @@ jobs:
         brew install gcc
         brew install pkg-config
         brew link gcc
+        ls /usr/local/bin
+        exit 1
       shell: bash
 
     - name: Install GMP for Mac
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'None'
       run: |
         wget https://github.com/pmmp/DependencyMirror/releases/download/mirror/gmp-6.3.0.tar.xz
         tar xvf gmp-6.3.0.tar.xz
