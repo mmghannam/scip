@@ -119,7 +119,7 @@ jobs:
     - name: Check Fail Reason Mac
       if: always()
       run: |
-        cat ThirdPart-Mumps/config.log
+        cat ThirdParty-Mumps/config.log
       shell: bash
       
     - name: Install IPOPT
