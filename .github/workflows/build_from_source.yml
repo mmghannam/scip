@@ -92,6 +92,7 @@ jobs:
         git clone https://github.com/scipopt/scip.git
         cd scip
         mkdir build
+        cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
