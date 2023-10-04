@@ -36,10 +36,11 @@ jobs:
     - name: Install dependencies for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        pacman -S binutils diffutils git grep make pathc pkg-config
-        pacmac -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
-        pacmac -S mingw-w64-x86_64-lapack mingw-w64-x86_64-metis
-      shell: bash
+        choco install msys2
+        refreshenv
+        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S binutils diffutils git grep make pathc pkg-config mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
+        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
+        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S mingw-w64-x86_64-lapack mingw-w64-x86_64-metis
 
     - name: Install GMP for Mac
       if: matrix.os == 'None'
