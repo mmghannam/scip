@@ -39,6 +39,7 @@ jobs:
         pacman -S binutils diffutils git grep make pathc pkg-config
         pacmac -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
         pacmac -S mingw-w64-x86_64-lapack mingw-w64-x86_64-metis
+      shell: bash
 
     - name: Install GMP for Mac
       if: matrix.os == 'None'
