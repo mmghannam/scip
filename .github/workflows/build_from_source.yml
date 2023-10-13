@@ -49,7 +49,8 @@ jobs:
       run: |
         echo $PATH
         ls "/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/"
-        pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
+        # pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
+        pacman -S --noconfirm unzip git mingw-w64-x86_64-cmake cmake mingw-w64-x86_64-zlib
         # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"' >> .bashrc
         # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64"' >> .bashrc
         # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"'>> .bashrc
