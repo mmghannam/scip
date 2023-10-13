@@ -274,6 +274,6 @@ jobs:
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
         cmake -G "Visual Studio 17 2022" -B $GITHUB_WORKSPACE/scip_build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DZLIB=false -DREADLINE=false -DGMP=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/ -DIPOPT_LIBRARIES=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/bin
         cmake --build $GITHUB_WORKSPACE/scip_build --config Release
-	cmake --install $GITHUB_WORKSPACE/scip_install
+        cmake --install $GITHUB_WORKSPACE/scip_install
       shell: msys2 {0}
     
