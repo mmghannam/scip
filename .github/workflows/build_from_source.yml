@@ -224,11 +224,12 @@ jobs:
         git clone https://github.com/scipopt/soplex.git
         cd soplex
         mkdir $GITHUB_WORKSPACE/soplex_install
+        mkdir $GITHUB_WORKSPACE/soplex_build
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
-        cmake -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
-        cmake --build $GITHUB_WORKSPACE/soplex_install
+        cmake -G "Visual Studio 17 2022" -H . -B $GITHUB_WORKSPACE/soplex_build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        cmake --build $GITHUB_WORKSPACE/soplex_build
       shell: msys2 {0}
 
     - name: Download and install SCIP for Ubuntu
@@ -264,14 +265,13 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         mkdir $GITHUB_WORKSPACE/scip_install
+        mkdir $GITHUB_WORKSPACE/scip_build
         git clone https://github.com/scipopt/scip.git
         cd scip
-        mkdir build
-        cd build
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
-        cmake -G "Visual Studio 17 2022" .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/ -DIPOPT_LIBRARIES=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/bin
-        cmake --build $GITHUB_WORKSPACE/scip_install
+        cmake -G "Visual Studio 17 2022" -H . -B $GITHUB_WORKSPACE/scip_build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/ -DIPOPT_LIBRARIES=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/bin
+        cmake --build $GITHUB_WORKSPACE/scip_build
       shell: msys2 {0}
     
