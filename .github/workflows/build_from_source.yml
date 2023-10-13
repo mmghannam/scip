@@ -152,7 +152,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        git clone  https://github.com/coin-or-tools/ThirdParty-Mumps.git
+        git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
         ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ipopt
@@ -230,7 +230,7 @@ jobs:
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
         cmake -G "Visual Studio 17 2022" -B $GITHUB_WORKSPACE/soplex_build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false -DZLIB=false
         cmake --build $GITHUB_WORKSPACE/soplex_build --config Release
-        cmake --install $GITHUB_WORKSPACE/soplex_install
+        cmake --install $GITHUB_WORKSPACE/soplex_build
       shell: msys2 {0}
 
     - name: Download and install SCIP for Ubuntu
