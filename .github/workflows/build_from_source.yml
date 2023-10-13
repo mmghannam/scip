@@ -19,6 +19,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: msys2/setup-msys2@v2
+      if: matrix.os == 'windows-latest'
 
     - name: Install dependencies for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -33,19 +35,21 @@ jobs:
         brew upgrade cmake
       shell: bash
 
+    - name: Install Visual Studio 2019 for Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install visualstudio2019buildtools -y
+        choco install visualstudio2019-workload-vctools -y
+      shell: pwsh
+
     - name: Install dependencies for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install msys2
-        refreshenv
-        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S binutils diffutils git grep make pathc pkg-config wget 7zip
-        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
-        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -S mingw-w64-x86_64-lapack mingw-w64-x86_64-metis
-        choco install visualstudio2019buildtools -y
-        choco install visualstudio2019-workload-vctools -y
-        choco install visualstudio2019-workload-netcorebuildtools -y
-        choco install visualstudio2019-workload-msbuild -y
-        refreshenv
+        pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
+        echo 'export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools"' >> .bashrc
+        echo 'export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64"' >> .bashrc
+        echo 'export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin"'>> .bashrc
+      shell: msys2 {0}
 
     - name: Install GMP for Mac
       if: matrix.os == 'None'
@@ -94,14 +98,10 @@ jobs:
     - name: Download IPOPT for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        wget https://github.com/coin-or/Ipopt/archive/refs/tags/releases/3.14.12.zip
-        7z x 3.14.12.zip -o*
-        mkdir $GITHUB_WORKSPACE/ipopt
-        mkdir $GITHUB_WORKSPACE/ipopt/share
-        echo 'enable_shared=no
-        enable_java=no
-        enable_sipopt=no
-        with_pic=yes' > $GITHUB_WORKSPACE/ipopt/share/config.site
+        wget https://github.com/coin-or/Ipopt/releases/download/releases%2F3.14.12/Ipopt-3.14.12-win64-msvs2019-md.zip
+        unzip Ipopt-3.14.12-win64-msvs2019-md.zip
+        mv Ipopt-3.14.12-win64-msvs2019-md/lib/ipopt.dll.lib Ipopt-3.14.12-win64-msvs2019-md/lib/ipopt.lib
+      shell: msys2 {0}
         
 
     - name: Download and install metis for Ubuntu
@@ -154,16 +154,6 @@ jobs:
         make
         make install
       shell: bash
-
-    - name: Download and install Mumps for Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        wget http://assets.projectchrono.org/downloads/Mumps-5.1.1.zip
-        7z Mumps-5.1.1.zip -o*
-        mkdir $GITHUB_WORKSPACE\ipopt\include
-        mkdir $GITHUB_WORKSPACE\ipopt\lib
-        mv Mumps-5.1.1\lib\* $GITHUB_WORKSPACE\ipopt\lib\.
-        mv Mumps-5.1.1\include\* $GITHUB_WORKSPACE\ipopt\include\.
       
     - name: Install IPOPT for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -191,17 +181,6 @@ jobs:
         make test
         make install
       shell: bash
-
-    - name: Install IPOPT for Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        cd Ipopt-releases-3.14.12
-        mkdir build 
-        cd build
-        ../configure --enable-msvc
-        make
-        make test
-        make install
 
     - name: Download and install SOPLEX for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -234,6 +213,18 @@ jobs:
         make install
       shell: bash
 
+    - name: Download and install SOPLEX for Windows
+      if: matrix.os == 'windows-latest'
+      run |
+        git clone https://github.com/scipopt/soplex.git
+        cd soplex
+        mkdir build
+        mkdir $GITHUB_WORKSPACE/soplex_install
+        cd build
+        cmake -G "Visual Studio 16 2019".. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        cmake --build $GITHUB_WORKSPACE/soplex_install -G "Visual Studio 16 2019"
+      shell: msys2 {0}
+
     - name: Download and install SCIP for Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -262,4 +253,15 @@ jobs:
         make -j$(nproc)
         make install
       shell: bash
+
+    - name: Download and install SCIP for Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        mkdir $GITHUB_WORKSPACE/scip_install
+        git clone https://github.com/scipopt/scip.git
+        cd scip
+        mkdir build
+        cd build
+        cmake -G "Visual Studio 16 2019".. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/ -DIPOPT_LIBRARIES=$GITHUB_WORKSPACE/Ipopt-3.14.12-win64-msvs2019-md/bin
+      shell: msys2 {0}
     
