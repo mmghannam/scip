@@ -45,6 +45,7 @@ jobs:
     - name: Install dependencies for Windows
       if: matrix.os == 'windows-latest'
       run: |
+        ls /c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/
         pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
         echo 'export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools"' >> .bashrc
         echo 'export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64"' >> .bashrc
@@ -221,6 +222,9 @@ jobs:
         mkdir build
         mkdir $GITHUB_WORKSPACE/soplex_install
         cd build
+        export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools"
+        export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64"
+        export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin"
         cmake -G "Visual Studio 16 2019".. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
         cmake --build $GITHUB_WORKSPACE/soplex_install -G "Visual Studio 16 2019"
       shell: msys2 {0}
