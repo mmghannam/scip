@@ -215,7 +215,7 @@ jobs:
 
     - name: Download and install SOPLEX for Windows
       if: matrix.os == 'windows-latest'
-      run |
+      run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
         mkdir build
