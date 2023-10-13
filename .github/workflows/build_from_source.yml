@@ -223,13 +223,11 @@ jobs:
       run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
-        mkdir build
         mkdir $GITHUB_WORKSPACE/soplex_install
-        cd build
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
-        cmake -G "Visual Studio 17 2022" .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        cmake -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
         cmake --build $GITHUB_WORKSPACE/soplex_install
       shell: msys2 {0}
 
