@@ -120,8 +120,10 @@ jobs:
         make
         make install
         cd ..
+        ls metis
         cd METIS-5.1.1-DistDGL-v0.5
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/metis
+        ls ../metis
         make
         make install
       shell: bash
