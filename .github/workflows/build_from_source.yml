@@ -123,7 +123,7 @@ jobs:
         make install
         cd ..
         cd METIS-master
-        make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/gklib-install
+        make config shared=0 prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/metis/
         make install
       shell: bash
 
