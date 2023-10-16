@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false # do not stop all builds if one fails
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [ubuntu-latest]
 
 
     steps:
@@ -33,6 +33,7 @@ jobs:
       run: |
         brew install bash
         brew upgrade cmake
+        brew install unzip
       shell: bash
 
     - name: Install Visual Studio 2019 for Windows
@@ -51,9 +52,6 @@ jobs:
         ls "/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/"
         # pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
         pacman -S --noconfirm unzip git mingw-w64-x86_64-cmake cmake mingw-w64-x86_64-zlib
-        # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"' >> .bashrc
-        # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64"' >> .bashrc
-        # echo 'export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"'>> .bashrc
       shell: msys2 {0}
 
     - name: Install GMP for Mac
@@ -112,10 +110,11 @@ jobs:
     - name: Download and install metis for Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
-        tar -xvf metis-5.1.0.tar.gz
+        wget https://github.com/KarypisLab/METIS/archive/refs/heads/master.zip
+        unzip masters.zip
+        rm master.zip
         mkdir $GITHUB_WORKSPACE/metis
-        cd metis-5.1.0
+        cd METIS-master
         make config prefix=$GITHUB_WORKSPACE/metis/
         make install
       shell: bash
