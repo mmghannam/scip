@@ -76,8 +76,8 @@ jobs:
         enable_java=no
         enable_sipopt=no
         with_pic=yes
-        with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include/metis.h"
-        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib/libmetis.a -lm"
+        with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include/"
+        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib/ -lmetis -lm"
         with_lapack="-L/usr/lib/x86_64-linux-gnu/ -llapack -lblas -lgfortran -lquadmath -lm"
         LT_LDFLAGS=-all-static
         LDFLAGS=-static' > $GITHUB_WORKSPACE/ipopt/share/config.site
@@ -179,6 +179,13 @@ jobs:
         make -j$(nproc)
         make test
         make install
+      shell: bash
+
+    - name: Check fail reason
+      if: always()
+      run: |
+        ls $GITHUB_WORKSPACE/Ipopt-releases-3.14.12
+        ls $GITHUB_WORKSPACE/Ipopt-releases-3.14.12/build
       shell: bash
 
     - name: Install IPOPT for Mac
