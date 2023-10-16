@@ -119,6 +119,7 @@ jobs:
         make config prefix=$GITHUB_WORKSPACE/metis
         make
         make install
+        ls
         cd ..
         ls metis
         cd METIS-5.1.1-DistDGL-v0.5
