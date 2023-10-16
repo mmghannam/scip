@@ -117,10 +117,12 @@ jobs:
         mkdir $GITHUB_WORKSPACE/metis
         cd GKlib-METIS-v5.1.1-DistDGL-0.5
         make config shared=0 prefix=$GITHUB_WORKSPACE/metis
+        make
         make install
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
         make config shared=0 prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/metis
+        make
         make install
       shell: bash
 
@@ -175,13 +177,6 @@ jobs:
         make -j$(nproc)
         make test
         make install
-      shell: bash
-
-    - name: Check fail reason
-      if: always()
-      run: |
-        ls $GITHUB_WORKSPACE/ThirdParty-Mumps
-        cat $GITHUB_WORKSPACE/ThirdParty-Mumps/config.log
       shell: bash
 
     - name: Install IPOPT for Mac
