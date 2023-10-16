@@ -111,7 +111,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         wget https://github.com/KarypisLab/METIS/archive/refs/heads/master.zip
-        unzip masters.zip
+        unzip master.zip
         rm master.zip
         mkdir $GITHUB_WORKSPACE/metis
         cd METIS-master
@@ -125,7 +125,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         wget https://github.com/KarypisLab/METIS/archive/refs/heads/master.zip
-        unzip masters.zip
+        unzip master.zip
         rm master.zip
         mkdir $GITHUB_WORKSPACE/metis
         cd METIS-master
