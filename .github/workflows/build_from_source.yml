@@ -116,13 +116,12 @@ jobs:
         wget https://github.com/KarypisLab/GKlib/archive/refs/heads/master.zip
         unzip master.zip
         rm master.zip
-        mkdir $GITHUB_WORKSPACE/gklib-install
+        mkdir $GITHUB_WORKSPACE/metis
         cd GKlib-master
-        make config prefix=$GITHUB_WORKSPACE/gklib-install 
+        make config prefix=$GITHUB_WORKSPACE/metis
         make
         make install
         cd ..
-        mkdir $GITHUB_WORKSPACE/metis
         cd METIS-master
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/gklib-install
         make install
