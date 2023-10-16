@@ -184,8 +184,8 @@ jobs:
     - name: Check fail reason
       if: always()
       run: |
-        ls $GITHUB_WORKSPACE/Ipopt-releases-3.14.12
-        ls $GITHUB_WORKSPACE/Ipopt-releases-3.14.12/build
+        ls $GITHUB_WORKSPACE/ThirdParty-Mumps
+        cat $GITHUB_WORKSPACE/ThirdParty-Mumps/config.log
       shell: bash
 
     - name: Install IPOPT for Mac
