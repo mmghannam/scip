@@ -77,7 +77,7 @@ jobs:
         enable_sipopt=no
         with_pic=yes
         with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include/metis.h"
-        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib/libmetis.a -lmetis -lm"
+        with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib/libmetis.a -lm"
         with_lapack="-L/usr/lib/x86_64-linux-gnu/ -llapack -lblas -lgfortran -lquadmath -lm"
         LT_LDFLAGS=-all-static
         LDFLAGS=-static' > $GITHUB_WORKSPACE/ipopt/share/config.site
