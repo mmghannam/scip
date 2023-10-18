@@ -142,7 +142,7 @@ jobs:
         make install
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
-        export CMAKE_C_FLAGS="-Wno-error"
+        sed -i 's/-DCMAKE_VERBOSE_MAKEFILE=1/-DCMAKE_VERBOSE_MAKEFILE=1 -DCMAKE_C_FLAGS="-Wno-error"/g' Makefile
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
         make
         make install
