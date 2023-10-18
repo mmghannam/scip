@@ -131,8 +131,8 @@ jobs:
       run: |
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
-        wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
-        tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
+        wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.2.1.tar.gz
+        tar -xvf v5.2.1.tar.gz
         wget https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz
         tar -xvf METIS-v5.1.1-DistDGL-0.5.tar.gz
         mkdir $GITHUB_WORKSPACE/metis
@@ -141,8 +141,7 @@ jobs:
         make
         make install
         cd ..
-        cd METIS-5.1.1-DistDGL-v0.5
-        export CFLAGS="-Wno-error=format-truncation"
+        cd METIS-5.2.1/
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
         make install
       shell: bash
