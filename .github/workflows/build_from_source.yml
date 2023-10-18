@@ -142,7 +142,8 @@ jobs:
         make install
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
-        make CFLAGS="-Wno-error=format-truncation" config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
+        export CFLAGS="-Wno-error=format-truncation"
+        make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
         make install
       shell: bash
         
