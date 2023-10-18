@@ -138,7 +138,7 @@ jobs:
         mkdir $GITHUB_WORKSPACE/metis
         cd GKlib-METIS-v5.1.1-DistDGL-0.5
         make config prefix=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
-        make
+        make CFLAGS="-Wno-error=format-truncation"
         make install
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
