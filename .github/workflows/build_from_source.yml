@@ -140,9 +140,9 @@ jobs:
         make config prefix=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
         make
         make install
+        sed -i'' -e 's/set(GKlib_COPTIONS "${GKlib_COPTIONS} -Werror -Wall -pedantic -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-label")/set(GKlib_COPTIONS "${GKlib_COPTIONS} -Wall -pedantic -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-label")/g' GKlibSystem.cmake
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
-        sed -i'' -e 's/-DCMAKE_VERBOSE_MAKEFILE=1/-DCMAKE_VERBOSE_MAKEFILE=1 -DCMAKE_C_FLAGS=-Wno-error/g' Makefile
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
         make
         make install
