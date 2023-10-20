@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false # do not stop all builds if one fails
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
 
     steps:
@@ -36,15 +36,6 @@ jobs:
         brew install unzip
       shell: bash
 
-    - name: Install Visual Studio 2019 for Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        # choco install visualstudio2019buildtools -y
-        # choco install visualstudio2019-workload-vctools -y
-        ls "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
-        echo $env:PATH
-      shell: pwsh
-
     - name: Install dependencies for Windows
       if: matrix.os == 'windows-latest'
       run: |
@@ -53,17 +44,6 @@ jobs:
         # pacman -S --noconfirm unzip git mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake cmake make
         pacman -S --noconfirm unzip git mingw-w64-x86_64-cmake cmake mingw-w64-x86_64-zlib
       shell: msys2 {0}
-
-    - name: Install GMP for Mac
-      if: matrix.os == 'None'
-      run: |
-        wget https://github.com/pmmp/DependencyMirror/releases/download/mirror/gmp-6.3.0.tar.xz
-        tar xvf gmp-6.3.0.tar.xz
-        mkdir $GITHUB_WORKSPACE/gmplib
-        cd gmp-6.3.0
-        ./configure --with-pic --enable-cxx --prefix=$GITHUB_WORKSPACE/gmplib
-        make install -j
-      shell: bash
 
     - name: Download IPOPT for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -210,7 +190,7 @@ jobs:
         mkdir build
         mkdir $GITHUB_WORKSPACE/soplex_install
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
         make -j$(nproc)
         make test
         make install
@@ -227,7 +207,7 @@ jobs:
         mkdir build
         mkdir $GITHUB_WORKSPACE/soplex_install
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/soplex_install -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DPAPILO=false
         make -j$(nproc)
         make test
         make install
@@ -256,7 +236,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
@@ -272,7 +252,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
@@ -291,4 +271,27 @@ jobs:
         cmake --build $GITHUB_WORKSPACE/scip_build --config Release
         cmake --install $GITHUB_WORKSPACE/scip_build
       shell: msys2 {0}
+
+    - name: ZIP SCIP for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        zip -r $GITHUB_WORKSPACE/upload.zip $GITHUB_WORKSPACE/ipopt/lib $GITHUB_WORKSPACE/ipopt/include $GITHUB_WORKSPACE/ipopt/bin 
+      shell: bash
+
+    - name: ZIP SCIP for MacOS
+      if: matrix.os == 'macos-latest'
+      run: |
+        zip -r $GITHUB_WORKSPACE/upload.zip $GITHUB_WORKSPACE/ipopt/lib $GITHUB_WORKSPACE/ipopt/include $GITHUB_WORKSPACE/ipopt/bin 
+      shell: bash
     
+    - uses: actions/upload-artifact@v3
+      if: matrix.os == 'ubuntu-latest'
+      with:
+        name: Upload SCIP lib and headers for Ubuntu
+        path: $GITHUB_WORKSPACE/upload.zip
+
+    - uses: actions/upload-artifact@v3
+      if: matrix.os == 'macos-latest'
+      with:
+        name: Upload SCIP lib and headers for MacOS
+        path: $GITHUB_WORKSPACE/upload.zip
