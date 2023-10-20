@@ -23,7 +23,7 @@ jobs:
       if: matrix.os == 'windows-latest'
 
     - name: Install dependencies for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev libmetis-dev unzip zip build-essential libscalapack-mpi-dev
       shell: bash
@@ -46,7 +46,7 @@ jobs:
       shell: msys2 {0}
 
     - name: Download IPOPT for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         wget https://github.com/coin-or/Ipopt/archive/refs/tags/releases/3.14.12.zip
         unzip 3.14.12.zip
@@ -88,7 +88,7 @@ jobs:
         
 
     - name: Download and install metis for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
@@ -130,7 +130,7 @@ jobs:
       shell: bash
         
     - name: Download and install Mumps for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
@@ -158,7 +158,7 @@ jobs:
       shell: bash
       
     - name: Install IPOPT for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         cd Ipopt-releases-3.14.12
         mkdir build
@@ -186,7 +186,7 @@ jobs:
       shell: bash
 
     - name: Download and install SOPLEX for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
@@ -233,7 +233,7 @@ jobs:
       shell: msys2 {0}
 
     - name: Download and install SCIP for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         mkdir $GITHUB_WORKSPACE/scip_install
         git clone https://github.com/scipopt/scip.git
@@ -278,7 +278,7 @@ jobs:
       shell: msys2 {0}
 
     - name: ZIP SCIP for Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         zip -r $GITHUB_WORKSPACE/upload.zip $GITHUB_WORKSPACE/ipopt/lib $GITHUB_WORKSPACE/ipopt/include $GITHUB_WORKSPACE/ipopt/bin 
       shell: bash
@@ -290,7 +290,7 @@ jobs:
       shell: bash
     
     - uses: actions/upload-artifact@v3
-      if: matrix.os == 'ubuntu-latest'
+      if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       with:
         name: Upload SCIP lib and headers for Ubuntu
         path: ${{ github.workspace }}/upload.zip
