@@ -236,7 +236,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
@@ -252,7 +252,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/soplex_install -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
@@ -288,10 +288,10 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       with:
         name: Upload SCIP lib and headers for Ubuntu
-        path: $GITHUB_WORKSPACE/upload.zip
+        path: ${{ github.workspace }}/upload.zip
 
     - uses: actions/upload-artifact@v3
       if: matrix.os == 'macos-latest'
       with:
         name: Upload SCIP lib and headers for MacOS
-        path: $GITHUB_WORKSPACE/upload.zip
+        path: ${{ github.workspace }}/upload.zip
