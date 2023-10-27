@@ -170,7 +170,7 @@ jobs:
         cd build
         ../configure --prefix=$GITHUB_WORKSPACE/ipopt/
         make -j$(nproc)
-        # make test V=1
+        make test V=1
         make install
         cat $GITHUB_WORKSPACE/ipopt/lib/pkgconfig/*.pc
       shell: bash
