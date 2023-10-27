@@ -26,6 +26,10 @@ jobs:
       if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
         sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev unzip zip build-essential libscalapack-mpi-dev
+        sudo rm /usr/lib/x86_64-linux-gnu/liblapack.so
+        sudo rm /usr/lib/x86_64-linux-gnu/liblapack.so.3
+        sudo rm /usr/lib/x86_64-linux-gnu/libblas.so
+        sudo rm /usr/lib/x86_64-linux-gnu/libblas.so.3
       shell: bash
 
     - name: Instance dependencies for Mac
@@ -58,7 +62,8 @@ jobs:
         with_pic=yes
         with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include/"
         with_metis_lflags="$GITHUB_WORKSPACE/metis/lib/libmetis.a -lm"
-        with_lapack_lflags="/usr/lib/x86_64-linux-gnu/liblapack.a /usr/lib/x86_64-linux-gnu/libblas.a -lgfortran -lquadmath -lm"
+        #with_lapack_lflags="/usr/lib/x86_64-linux-gnu/liblapack.a /usr/lib/x86_64-linux-gnu/libblas.a -lgfortran -lquadmath -lm"
+        with_lapack_lflags="-llapack -lblas -lgfortran -lquadmath -lm"
         LT_LDFLAGS=-all-static
         LDFLAGS=-static' > $GITHUB_WORKSPACE/ipopt/share/config.site
       shell: bash
