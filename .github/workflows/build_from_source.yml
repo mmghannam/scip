@@ -25,9 +25,7 @@ jobs:
     - name: Install dependencies for Ubuntu
       if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
-        ls /usr/lib/x86_64-linux-gnu
         sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev unzip zip build-essential libscalapack-mpi-dev
-        ls /usr/lib/x86_64-linux-gnu
       shell: bash
 
     - name: Instance dependencies for Mac
@@ -60,7 +58,7 @@ jobs:
         with_pic=yes
         with_metis_cflags="-I$GITHUB_WORKSPACE/metis/include/"
         with_metis_lflags="-L$GITHUB_WORKSPACE/metis/lib/ -lmetis -lm"
-        with_lapack="-L/usr/lib/x86_64-linux-gnu/ -llapack -lblas -lgfortran -lquadmath -lm"
+        with_lapack_lflags="/usr/lib/x86_64-linux-gnu/liblapack.a /usr/lib/x86_64-linux-gnu/libblas.a -lgfortran -lquadmath -lm"
         LT_LDFLAGS=-all-static
         LDFLAGS=-static' > $GITHUB_WORKSPACE/ipopt/share/config.site
       shell: bash
@@ -103,7 +101,7 @@ jobs:
         make install
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
-        make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
+        make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5 shared=0
         make
         make install
       shell: bash
@@ -242,7 +240,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DGMP=false -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
