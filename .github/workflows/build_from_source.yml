@@ -25,7 +25,9 @@ jobs:
     - name: Install dependencies for Ubuntu
       if: (matrix.os == 'ubuntu-latest') || (matrix.os == 'ubuntu-20.04')
       run: |
-        sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev libmetis-dev unzip zip build-essential libscalapack-mpi-dev
+        ls /usr/lib/
+        exit
+        sudo apt-get install gcc g++ gfortran git patch wget pkg-config liblapack-dev unzip zip build-essential libscalapack-mpi-dev
       shell: bash
 
     - name: Instance dependencies for Mac
@@ -257,7 +259,7 @@ jobs:
         cd scip
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
+        cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/ipopt -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=$GITHUB_WORKSPACE/ipopt -DPAPILO=false -DZIMPL=false -DGMP=false -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=$GITHUB_WORKSPACE/ipopt
         make -j$(nproc)
         make install
       shell: bash
