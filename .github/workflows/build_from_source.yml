@@ -299,9 +299,9 @@ jobs:
         name: Upload SCIP lib and headers for MacOS
         path: ${{ github.workspace }}/upload.zip
 
-     - uses: actions/upload-artifact@v3
-       if: (matrix.os == 'windows-latest') || (matrix.os == 'windows-2019')
-       with:
-         name: Upload SCIP lib and headers for Windows
-         path: ${{ github.workspace }}/upload.zip
+    - uses: actions/upload-artifact@v3
+      if: (matrix.os == 'windows-latest') || (matrix.os == 'windows-2019')
+      with:
+        name: Upload SCIP lib and headers for Windows
+        path: ${{ github.workspace }}/upload.zip
     
