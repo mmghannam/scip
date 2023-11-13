@@ -15,7 +15,6 @@ jobs:
       matrix:
         os: [macos-latest, windows-2019]
 
-
     steps:
     - uses: actions/checkout@v3
     - uses: msys2/setup-msys2@v2
