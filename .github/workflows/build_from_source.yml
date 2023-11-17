@@ -13,7 +13,8 @@ jobs:
     strategy:
       fail-fast: false # do not stop all builds if one fails
       matrix:
-        os: [windows-latest]
+        os: [macos-latest]
+        arch: [ARM64]
 
     steps:
     - uses: actions/checkout@v3
