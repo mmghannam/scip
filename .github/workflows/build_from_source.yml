@@ -112,7 +112,7 @@ jobs:
       run: |
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
         wget https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz
@@ -147,7 +147,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=12.0
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
@@ -174,7 +174,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=12.0
         cd Ipopt-releases-3.14.12
         mkdir build
         cd build
@@ -203,7 +203,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=12.0
         git clone https://github.com/scipopt/soplex.git
         cd soplex
         mkdir build
@@ -246,7 +246,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=12.0
         git clone https://github.com/scipopt/scip.git
         cd scip
         mkdir build
