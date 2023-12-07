@@ -13,8 +13,8 @@ jobs:
     strategy:
       fail-fast: false # do not stop all builds if one fails
       matrix:
-        os: [macos-latest]
-        arch: [ARM64]
+        os: [macos-latest, windows-latest]
+        # arch: [ARM64]
 
     steps:
     - uses: actions/checkout@v3
@@ -112,7 +112,7 @@ jobs:
       run: |
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=10.13
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
         wget https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz
@@ -147,7 +147,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=10.13
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
@@ -174,7 +174,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=10.13
         cd Ipopt-releases-3.14.12
         mkdir build
         cd build
@@ -189,6 +189,7 @@ jobs:
       run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
+        git checkout release-604
         mkdir build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DGMP=false -DPAPILO=false
@@ -203,7 +204,7 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=10.13
         wget https://github.com/scipopt/soplex/archive/refs/tags/release-604.zip
         unzip release-604.zip
         cd soplex-release-604
@@ -220,6 +221,7 @@ jobs:
       run: |
         git clone https://github.com/scipopt/soplex.git
         cd soplex
+        git checkout release-604
         mkdir soplex_build
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
@@ -234,6 +236,7 @@ jobs:
       run: |
         git clone https://github.com/scipopt/scip.git
         cd scip
+        git checkout v804
         mkdir build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=../../scip_install -DPAPILO=false -DZIMPL=false -DGMP=false -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=../../scip_install
@@ -247,9 +250,10 @@ jobs:
         export CC=/usr/local/bin/gcc-13
         export CXX=/usr/local/bin/g++-13
         export FC=/usr/local/bin/gfortran-13
-        export MACOSX_DEPLOYMENT_TARGET=11.0
+        export MACOSX_DEPLOYMENT_TARGET=10.13
         git clone https://github.com/scipopt/scip.git
         cd scip
+        git checkout v804
         mkdir build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=../../scip_install -DPAPILO=false -DZIMPL=false -DGMP=false -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=../../scip_install
@@ -263,6 +267,7 @@ jobs:
         mkdir $GITHUB_WORKSPACE/scip_build
         git clone https://github.com/scipopt/scip.git
         cd scip
+        git checkout v804
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
         export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
