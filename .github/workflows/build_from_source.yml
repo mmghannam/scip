@@ -32,11 +32,6 @@ jobs:
         sudo rm /usr/lib/x86_64-linux-gnu/libblas.so.3
       shell: bash
 
-    - uses: maxim-lobanov/setup-xcode@v1
-      if: (matrix.os == 'macos-latest') && (matrix.arch == 'arm64')
-      with:
-        xcode-version: latest-stable
-
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
