@@ -35,6 +35,7 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
+        file /usr/bin/make
         brew install bash
         brew upgrade cmake
         brew install unzip
