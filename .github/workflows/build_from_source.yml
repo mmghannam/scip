@@ -34,6 +34,7 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
+        uname -a
         brew install bash
         brew upgrade cmake
         brew install unzip
@@ -300,11 +301,11 @@ jobs:
         name: Upload SCIP lib and headers for Ubuntu
         path: ${{ github.workspace }}/upload.zip
 
-    - uses: actions/upload-artifact@v3
-      if: matrix.os == 'macos-latest'
-      with:
-        name: Upload SCIP lib and headers for MacOS
-        path: ${{ github.workspace }}/upload.zip
+    # - uses: actions/upload-artifact@v3
+    #   if: matrix.os == 'macos-latest'
+    #   with:
+    #     name: Upload SCIP lib and headers for MacOS
+    #     path: ${{ github.workspace }}/upload.zip
 
     - uses: actions/upload-artifact@v3
       if: (matrix.os == 'windows-latest') || (matrix.os == 'windows-2019')
