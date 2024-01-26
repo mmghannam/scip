@@ -122,13 +122,13 @@ jobs:
         tar -xvf METIS-v5.1.1-DistDGL-0.5.tar.gz
         mkdir $GITHUB_WORKSPACE/metis
         cd GKlib-METIS-v5.1.1-DistDGL-0.5
-        cc=${CC} make config prefix=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
+        make config prefix=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5 cc=$CC
         make
         make install
         sed -i'' -e 's/set(GKlib_COPTIONS "${GKlib_COPTIONS} -Werror -Wall -pedantic -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-label")/set(GKlib_COPTIONS "${GKlib_COPTIONS} -Wall -pedantic -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-label")/g' GKlibSystem.cmake
         cd ..
         cd METIS-5.1.1-DistDGL-v0.5
-        cc=${CC} make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5
+        make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5 cc=$CC
         make
         make install
       shell: bash
