@@ -35,7 +35,6 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        file /usr/bin/gfortran
         brew install bash
         brew upgrade cmake
         brew install unzip
@@ -115,7 +114,6 @@ jobs:
         # export CC=/usr/local/bin/gcc-13
         # export CXX=/usr/local/bin/g++-13
         export CC=/usr/bin/gcc
-        # export CMAKE_C_FLAGS="\"-arch x86_64 -arch arm64\""
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
@@ -134,9 +132,7 @@ jobs:
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5 cc=$CC
         make
         make install
-        ls $GITHUB_WORKSPACE/metis
-        ls $GITHUB_WORKSPACE/metis/bin
-        file $GITHUB_WORKSPACE/metis/bin/metis
+        file $GITHUB_WORKSPACE/metis/bin/gpmetis
       shell: bash
 
     - name: Download and install Mumps for Ubuntu
