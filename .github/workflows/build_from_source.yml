@@ -114,7 +114,7 @@ jobs:
       run: |
         # export CC=/usr/local/bin/gcc-13
         # export CXX=/usr/local/bin/g++-13
-        export CC="/usr/bin/gcc -arch x86_64 -arch arm64"
+        export CC="\"/usr/bin/gcc -arch x86_64 -arch arm64\""
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
