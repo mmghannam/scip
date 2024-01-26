@@ -13,8 +13,9 @@ jobs:
     strategy:
       fail-fast: false # do not stop all builds if one fails
       matrix:
-        os: [macos-latest]
-        arch: [ARM64]
+        include:
+          - os: macos-latest
+            arch: arm64
 
     steps:
     - uses: actions/checkout@v3
