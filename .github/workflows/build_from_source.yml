@@ -35,10 +35,6 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        which gcc
-        which clang
-        file /usr/bin/gcc
-        file /usr/bin/clang
         brew install bash
         brew upgrade cmake
         brew install unzip
@@ -115,8 +111,9 @@ jobs:
     - name: Download and install metis for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
+        # export CC=/usr/local/bin/gcc-13
+        # export CXX=/usr/local/bin/g++-13
+        export CC="/usr/bin/gcc -arch x86_64 -arch arm64"
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
@@ -149,9 +146,9 @@ jobs:
     - name: Download and install Mumps for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
-        export FC=/usr/local/bin/gfortran-13
+        # export CC=/usr/local/bin/gcc-13
+        # export CXX=/usr/local/bin/g++-13
+        # export FC=/usr/local/bin/gfortran-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
@@ -176,9 +173,9 @@ jobs:
     - name: Install IPOPT for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
-        export FC=/usr/local/bin/gfortran-13
+        # export CC=/usr/local/bin/gcc-13
+        # export CXX=/usr/local/bin/g++-13
+        # export FC=/usr/local/bin/gfortran-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         cd Ipopt-releases-3.14.12
         mkdir build
@@ -206,9 +203,9 @@ jobs:
     - name: Download and install SOPLEX for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
-        export FC=/usr/local/bin/gfortran-13
+        # export CC=/usr/local/bin/gcc-13
+        # export CXX=/usr/local/bin/g++-13
+        # export FC=/usr/local/bin/gfortran-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/scipopt/soplex/archive/refs/tags/release-604.zip
         unzip release-604.zip
@@ -252,9 +249,9 @@ jobs:
     - name: Download and install SCIP for Mac
       if:  matrix.os == 'macos-latest'
       run: |
-        export CC=/usr/local/bin/gcc-13
-        export CXX=/usr/local/bin/g++-13
-        export FC=/usr/local/bin/gfortran-13
+        # export CC=/usr/local/bin/gcc-13
+        # export CXX=/usr/local/bin/g++-13
+        # export FC=/usr/local/bin/gfortran-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         git clone https://github.com/scipopt/scip.git
         cd scip
