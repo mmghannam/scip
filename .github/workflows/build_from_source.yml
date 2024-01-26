@@ -40,8 +40,10 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        uname -a
-        file /usr/local/bin/gcc-13
+        which gcc
+        which clang
+        file /usr/bin/gcc
+        file /usr/bin/clang
         brew install bash
         brew upgrade cmake
         brew install unzip
