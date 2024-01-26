@@ -35,7 +35,7 @@ jobs:
     - name: Instance dependencies for Mac
       if: matrix.os == 'macos-latest'
       run: |
-        file /usr/bin/make
+        file /usr/bin/gfortran
         brew install bash
         brew upgrade cmake
         brew install unzip
@@ -134,6 +134,9 @@ jobs:
         make config prefix=$GITHUB_WORKSPACE/metis/ gklib_path=$GITHUB_WORKSPACE/GKlib-METIS-v5.1.1-DistDGL-0.5 cc=$CC
         make
         make install
+        ls $GITHUB_WORKSPACE/metis
+        ls $GITHUB_WORKSPACE/metis/bin
+        file $GITHUB_WORKSPACE/metis/bin/metis
       shell: bash
 
     - name: Download and install Mumps for Ubuntu
