@@ -35,6 +35,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         uname -a
+        file /usr/local/bin/gcc-13
         brew install bash
         brew upgrade cmake
         brew install unzip
