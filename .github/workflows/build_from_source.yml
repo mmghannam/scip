@@ -69,7 +69,7 @@ jobs:
         tar xvf gmp-6.3.0.tar.xz
         mkdir $GITHUB_WORKSPACE/gmplib
         cd gmp-6.3.0
-        ./configure --with-pic --disable shared --enable-cxx --prefix=$GITHUB_WORKSPACE/scip_install
+        ./configure --with-pic --disable-shared --enable-cxx --prefix=$GITHUB_WORKSPACE/scip_install
         make install -j
       shell: bash
 
