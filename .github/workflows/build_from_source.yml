@@ -34,6 +34,7 @@ jobs:
         brew install unzip
         ls /opt/homebrew/bin
         quit
+        quit
       shell: bash
 
     - name: Install dependencies for Windows
