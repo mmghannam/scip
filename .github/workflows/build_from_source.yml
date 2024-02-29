@@ -32,8 +32,6 @@ jobs:
         brew install bash
         brew upgrade cmake
         brew install unzip
-        file /opt/homebrew/bin/gcc-13
-        quit
       shell: bash
 
     - name: Install dependencies for Windows
