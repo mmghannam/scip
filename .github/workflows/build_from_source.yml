@@ -32,7 +32,7 @@ jobs:
         brew install bash
         brew upgrade cmake
         brew install unzip
-        file /usr/local/bin/gcc-13
+        file /usr/bin/gcc-13
       shell: bash
 
     - name: Install dependencies for Windows
