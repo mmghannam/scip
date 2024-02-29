@@ -221,6 +221,7 @@ jobs:
     - name: Download and install SOPLEX for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
+        export DEVELOPER_DIR=/Applications/Xcode_14.3.1.app/Contents/Developer
         export CC=/opt/homebrew/bin/gcc-13
         export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
@@ -231,7 +232,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DGMP=true -DPAPILO=false -DBOOST=false -DGMP_DIR=../../scip_install
-        make -j$(nproc)
+        CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' make -j$(nproc)
         make test
         make install
       shell: bash
@@ -271,6 +272,7 @@ jobs:
     - name: Download and install SCIP for Mac ARM
       if:  matrix.os == 'macos-14'
       run: |
+        export DEVELOPER_DIR=/Applications/Xcode_14.3.1.app/Contents/Developer
         export CC=/opt/homebrew/bin/gcc-13
         export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
@@ -281,7 +283,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=../../scip_install -DGMP_DIR=../../scip_install -DPAPILO=false -DZIMPL=false -DGMP=true -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=../../scip_install
-        make -j$(nproc)
+        CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' make -j$(nproc)
         make install
       shell: bash
 
