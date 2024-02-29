@@ -186,8 +186,8 @@ jobs:
     - name: Install IPOPT for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CFLAGS=-no-pie
-        export CXXFLAGS=-no-pie
+        export CFLAGS='-Wl,-ld_classic'
+        export CXXFLAGS=''-Wl,-ld_classic'
         export CC=/opt/homebrew/bin/gcc-13
         export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
