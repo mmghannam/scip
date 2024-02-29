@@ -32,9 +32,6 @@ jobs:
         brew install bash
         brew upgrade cmake
         brew install unzip
-        ls /opt/homebrew/bin
-        quit
-        quit
       shell: bash
 
     - name: Install dependencies for Windows
@@ -84,8 +81,8 @@ jobs:
     - name: Install GMP for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/pmmp/DependencyMirror/releases/download/mirror/gmp-6.3.0.tar.xz
         tar xvf gmp-6.3.0.tar.xz
@@ -120,8 +117,8 @@ jobs:
     - name: Download and install metis for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
         wget https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz
         tar -xvf v5.1.1-DistDGL-v0.5.tar.gz
@@ -158,10 +155,10 @@ jobs:
     - name: Download and install Mumps for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
-        export FC=/usr/local/bin/gfortran-13
+        export FC=/opt/homebrew/bin/gfortran-13
         git clone https://github.com/coin-or-tools/ThirdParty-Mumps.git
         cd ThirdParty-Mumps
         ./get.Mumps
@@ -189,10 +186,10 @@ jobs:
     - name: Install IPOPT for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
-        export FC=/usr/local/bin/gfortran-13
+        export FC=/opt/homebrew/bin/gfortran-13
         cd Ipopt-releases-3.14.12
         mkdir build
         cd build
@@ -223,10 +220,10 @@ jobs:
     - name: Download and install SOPLEX for Mac ARM
       if: matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
-        export FC=/usr/local/bin/gfortran-13
+        export FC=/opt/homebrew/bin/gfortran-13
         wget https://github.com/scipopt/soplex/archive/refs/tags/release-604.zip
         unzip release-604.zip
         cd soplex-release-604
@@ -273,10 +270,10 @@ jobs:
     - name: Download and install SCIP for Mac ARM
       if:  matrix.os == 'macos-14'
       run: |
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
+        export CC=/opt/homebrew/bin/gcc-13
+        export CXX=/opt/homebrew/bin/g++-13
         export MACOSX_DEPLOYMENT_TARGET=12.0
-        export FC=/usr/local/bin/gfortran-13
+        export FC=/opt/homebrew/bin/gfortran-13
         wget https://github.com/scipopt/scip/archive/refs/tags/v900.zip
         unzip v900.zip
         cd scip-900
