@@ -14,12 +14,12 @@ jobs:
       fail-fast: false # do not stop all builds if one fails
       matrix:
         include:
-          # - os: windows-latest
-          #   arch: AMD64
-          # - os: macos-latest
-          #   arch: AMD64
-          - os: macos-14
-            arch: ARM64
+          - os: windows-latest
+            arch: AMD64
+          - os: macos-latest
+            arch: AMD64
+          # - os: macos-14
+          #   arch: ARM64
 
     steps:
     - uses: actions/checkout@v3
@@ -32,26 +32,6 @@ jobs:
         brew install bash
         brew upgrade cmake
         brew install unzip
-      shell: bash
-
-    - name: Download and install SOPLEX for Mac ARM
-      if: matrix.os == 'macos-14'
-      run: |
-        export CC=/opt/homebrew/bin/gcc-13
-        export CXX=/opt/homebrew/bin/g++-13
-        export MACOSX_DEPLOYMENT_TARGET=12.0
-        export FC=/opt/homebrew/bin/gfortran-13
-        wget https://github.com/scipopt/soplex/archive/refs/tags/release-604.zip
-        unzip release-604.zip
-        mkdir scip_install
-        cd soplex-release-604
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DGMP=false -DPAPILO=false -DBOOST=false
-        CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' make -j$(nproc)
-        make test
-        make install
-        quit
       shell: bash
 
     - name: Install dependencies for Windows
