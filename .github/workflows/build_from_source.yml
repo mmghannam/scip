@@ -75,7 +75,6 @@ jobs:
         cd gmp-6.3.0
         ./configure --with-pic --disable-shared --enable-cxx --prefix=$GITHUB_WORKSPACE/scip_install
         make install -j
-        rm $GITHUB_WORKSPACE/scip_install/lib/*.so*
       shell: bash
 
     - name: Install GMP for Mac ARM
