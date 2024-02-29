@@ -32,7 +32,6 @@ jobs:
         brew install bash
         brew upgrade cmake
         brew install unzip
-        quit
       shell: bash
 
     - name: Install dependencies for Windows
