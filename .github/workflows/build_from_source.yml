@@ -231,7 +231,7 @@ jobs:
         cd soplex-release-604
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DGMP=true -DPAPILO=false -DBOOST=false -DGMP_DIR=../../scip_install
+        CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DGMP=true -DPAPILO=false -DBOOST=false -DGMP_DIR=../../scip_install
         CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' make -j$(nproc)
         make test
         make install
@@ -282,7 +282,7 @@ jobs:
         cd scip-900
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=../../scip_install -DGMP_DIR=../../scip_install -DPAPILO=false -DZIMPL=false -DGMP=true -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=../../scip_install
+        CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' cmake .. -DCMAKE_INSTALL_PREFIX=../../scip_install -DCMAKE_BUILD_TYPE=Release -DLPS=spx -DSOPLEX_DIR=../../scip_install -DGMP_DIR=../../scip_install -DPAPILO=false -DZIMPL=false -DGMP=true -DREADLINE=false -DIPOPT=true -DIPOPT_DIR=../../scip_install
         CXXFLAGS='-Wl,-ld_classic' CFLAGS='-Wl,-ld_classic' make -j$(nproc)
         make install
       shell: bash
